@@ -1,0 +1,46 @@
+.converter {
+    margin: 0 30%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.source, .target {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 24px 0;
+    text-align: left;
+}
+.pocket {
+  display: flex;
+  flex-direction: column;
+  max-width: 96px;
+}
+
+label {
+    font-size: 3rem;
+}
+input {
+    height: 50px;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 3rem;
+    width: 168px;
+    text-align: right;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+@media screen and (max-width: 768px) {
+    .converter{
+        margin: 0 10%;
+    } 
+}
