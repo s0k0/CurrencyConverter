@@ -13,23 +13,47 @@
     margin: 24px 0;
     text-align: left;
 }
-.pocket {
+.pocket, .note {
   display: flex;
   flex-direction: column;
-  max-width: 96px;
 }
-
-label {
+.pocket {
+    width: 144px;
+}  
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+.currency {
     font-size: 3rem;
 }
+.amount, .exchange {
+    font-size: 0.8rem;
+}
+
+.note {
+    text-align: right;
+}   
+
+button {
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 6px;
+    padding: 12px;
+    color: white;
+    cursor: pointer;
+} 
+
 input {
     height: 50px;
     border: none;
     background: transparent;
     color: white;
     font-size: 3rem;
-    width: 168px;
     text-align: right;
+    width: 168px;
 }
 
 input::-webkit-outer-spin-button,
