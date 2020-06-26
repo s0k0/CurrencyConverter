@@ -1,5 +1,5 @@
 .converter {
-    margin: 0 30%;
+    margin: 0 20%;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -10,41 +10,86 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    margin: 24px 0;
+    padding: 24px 12px;
+    margin-top: 24px;
     text-align: left;
 }
-.pocket, .note {
-  display: flex;
-  flex-direction: column;
+
+.target {
+    background: #027c9e;
+    border-radius: 6px;
 }
+
+.source {
+    background: #03c8ff;
+    border-radius: 6px;
+}
+
 .pocket {
-    width: 144px;
-}  
+    display: flex;
+    flex-direction: column;
+    min-width: 144px;
+}
+
+.invertRate {
+    width: 100;
+    text-align: right;
+}
+
 .controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
 }
+
 .currency {
     font-size: 3rem;
 }
-.amount, .exchange {
+
+.balance, .exchange, .error {
     font-size: 0.8rem;
+}
+
+.exchange {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
 }
 
 .note {
     text-align: right;
-}   
+}
+
+.error {
+    border-radius: 6px;
+    background: orange;
+    color: white;
+    font-weight: bolder;
+    padding: 12px;
+    margin-top: 12px;
+}
+
+.sign {
+    font-size: 2rem;
+    font-weight: bolder;
+}
 
 button {
     background: transparent;
     border: 1px solid white;
     border-radius: 6px;
-    padding: 12px;
+    padding: 12px 24px;
     color: white;
+    font-weight: bolder;
     cursor: pointer;
-} 
+}
+
+button.disabled {
+    opacity: 0.6;
+    cursor: auto;
+}
 
 input {
     height: 50px;
@@ -53,18 +98,16 @@ input {
     color: white;
     font-size: 3rem;
     text-align: right;
-    width: 168px;
+    width: 144px;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
-
 
 @media screen and (max-width: 768px) {
-    .converter{
-        margin: 0 10%;
-    } 
+    .converter {
+        margin: 0 5%;
+    }
 }
