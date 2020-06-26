@@ -68,7 +68,7 @@ class Converter extends React.Component {
             this.setState({ change: change === 0 ? '' : change.toFixed(2) });
         } else {
             const amount = value * this.state.invertRate;
-            this.setState({ amount: amount.toFixed(2) });
+            this.setState({ amount: amount === 0 ? '' : amount.toFixed(2) });
             this.setState({ change: value });
         }
 
@@ -78,7 +78,7 @@ class Converter extends React.Component {
         this.setState({ amount: '' })
     };
     updatePocket = (source, target) => {
-        if (this.state.amount > source.amount) return
+        if (this.state.amount > source.amount || this.state.amount === '') return
         const newPockets = this.state.pockets
         newPockets.forEach(_ => {
             if (_.currency === target.currency) _.balance = (parseFloat(_.balance) + parseFloat(this.state.change)).toFixed(2)
