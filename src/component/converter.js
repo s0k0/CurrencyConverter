@@ -41,7 +41,6 @@ class Converter extends React.Component {
     };
     getRate = () => {
         //TODO: add tests
-        //TODO: limit input to two decial points
         axios
             .get(
                 //cors enabled: https://cors-anywhere.herokuapp.com/
@@ -70,7 +69,6 @@ class Converter extends React.Component {
             this.setState({ amount: amount === 0 ? '' : amount.toFixed(2) });
             this.setState({ change: value });
         }
-
     };
     clearInputs = () => {
         this.setState({ change: '' })
@@ -91,6 +89,9 @@ class Converter extends React.Component {
         if (event.target.name === "target") this.setState({ targetCurrency: event.target.value })
         this.getRate()
     };
+    twoDecimalPoints = event => {
+        event.target.value = event.target.value.replace(/([^\d]*)(\d*(.\d{0,2})?)(.*)/, '$2');
+    }    
     render() {
         const source = this.state.pockets.find(_ => _.currency === this.state.sourceCurrency);
         const target = this.state.pockets.find(_ => _.currency === this.state.targetCurrency);
@@ -121,11 +122,11 @@ class Converter extends React.Component {
                         <span className="sign">-</span>
                         <input
                             name="source"
-                            type="number"
+                            type="text"
                             placeholder=""
                             autoFocus
-                            min="0"
                             value={this.state.amount}
+                            onInput={event => this.twoDecimalPoints(event)}
                             onChange={event => this.convertCurrency(event)}
                         />
                     </div>
@@ -147,10 +148,10 @@ class Converter extends React.Component {
                             <span className="sign">+</span>
                             <input
                                 name="target"
-                                type="number"
+                                type="text"
                                 placeholder=""
-                                min="0"
                                 value={this.state.change}
+                                onInput={event => this.twoDecimalPoints(event)}
                                 onChange={event => this.convertCurrency(event)}
                             />
                         </div>
