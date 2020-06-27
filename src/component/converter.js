@@ -40,7 +40,6 @@ class Converter extends React.Component {
         clearInterval(this.interval);
     };
     getRate = () => {
-        //TODO: change pockets ?
         //TODO: add tests
         //TODO: limit input to two decial points
         axios
@@ -78,7 +77,7 @@ class Converter extends React.Component {
         this.setState({ amount: '' })
     };
     updatePocket = (source, target) => {
-        if (this.state.amount > source.amount || this.state.amount === '') return
+        if (this.state.amount > source.amount || this.state.amount === '') return
         const newPockets = this.state.pockets
         newPockets.forEach(_ => {
             if (_.currency === target.currency) _.balance = (parseFloat(_.balance) + parseFloat(this.state.change)).toFixed(2)
@@ -87,10 +86,16 @@ class Converter extends React.Component {
         this.setState({ pockets: newPockets })
         this.clearInputs()
     };
+    changePocket = event => {
+        if (event.target.name === "source") this.setState({ sourceCurrency: event.target.value })
+        if (event.target.name === "target") this.setState({ targetCurrency: event.target.value })
+        this.getRate()
+    };
     render() {
         const source = this.state.pockets.find(_ => _.currency === this.state.sourceCurrency);
         const target = this.state.pockets.find(_ => _.currency === this.state.targetCurrency);
         const isBalanceSufficient = source.balance >= this.state.amount
+        const isDifferentPockets = source.currency !== target.currency
         return (
             <div className="converter">
                 <h1>
@@ -101,7 +106,7 @@ class Converter extends React.Component {
                     {this.state.rate
                         ? <span> {source.symbol} 1 = {target.symbol} {this.state.rate}</span>
                         : null}
-                    <button className={isBalanceSufficient ? null : 'disabled'} disabled={!isBalanceSufficient} onClick={_ => this.updatePocket(source, target)} >Exchange</button>
+                    <button className={isBalanceSufficient && isDifferentPockets ? null : 'disabled'} disabled={!isBalanceSufficient} onClick={_ => this.updatePocket(source, target)} >Exchange</button>
                 </div>
                 <div className="source">
                     <div className="pocket">
@@ -154,6 +159,23 @@ class Converter extends React.Component {
                             : null}
                     </div>
                 </div>
+                <h5>Change your pockets for transfering money:</h5>
+                <div className="changePockets">
+                    <select name="source" id="sourcePocket" onChange={event => this.changePocket(event)} defaultValue={source.currency}>
+                        {this.state.pockets.map(_ =>
+                            <option value={_.currency} key={_.currency}>{_.currency}</option>
+                        )}
+                    </select>
+                    <p><i className="arrow right"></i></p>
+                    <select name="target" id="targetPocket" onChange={event => this.changePocket(event)} defaultValue={target.currency}>
+                        {this.state.pockets.map(_ =>
+                            <option value={_.currency} key={_.currency}>{_.currency}</option>
+                        )}
+                    </select>
+                </div>
+                {isDifferentPockets
+                    ? null :
+                    <span className="error">Must be different currencies selected.</span>}
             </div>
         );
     }
