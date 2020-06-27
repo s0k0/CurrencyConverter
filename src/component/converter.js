@@ -17,7 +17,7 @@ class Converter extends React.Component {
                 {
                     currency: "EUR",
                     symbol: "€",
-                    balance: 0
+                    balance: 200
                 },
                 {
                     currency: "GBP",
@@ -27,7 +27,7 @@ class Converter extends React.Component {
                 {
                     currency: "USD",
                     symbol: "$",
-                    balance: 0
+                    balance: 10
                 }
             ]
         };
@@ -40,7 +40,6 @@ class Converter extends React.Component {
         clearInterval(this.interval);
     };
     getRate = () => {
-        //TODO: add tests
         axios
             .get(
                 //cors enabled: https://cors-anywhere.herokuapp.com/

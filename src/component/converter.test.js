@@ -1,9 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import App from './App';
+import Converter from './converter';
 
 test('renders converter component', () => {
-  const { getByText } = render(<App />);
+  const { getByText } = render(<Converter />);
   const converterHeadline = getByText(/exchange credit/i);
   expect(converterHeadline).toBeInTheDocument();
 });
+
