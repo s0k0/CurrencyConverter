@@ -1,16 +1,17 @@
 
 import React from 'react';
 import axios from 'axios';
-import { render, waitForElement } from '@testing-library/react';
+import { render, waitForElement, fireEvent } from '@testing-library/react';
 import Converter from './converter';
 
 jest.mock('axios')
 
+const rate = 1.1234
 function mockCall() {
   axios.get.mockResolvedValueOnce({
     data: {
        base: 'GBP',
-       rates: { EUR: 1.1234}
+       rates: { EUR: rate}
     }
   });
 } 
@@ -25,10 +26,22 @@ describe('Converter component', () => {
     mockCall();
     const url = 'https://cors-anywhere.herokuapp.com/http://api.openrates.io/latest?base=GBP&symbols=EUR'
     const { getByText } = render(<Converter />);
+    const rate = await waitForElement(() => getByText(/1.12/i))
     expect(axios.get).toHaveBeenCalledTimes(1);
     expect(axios.get).toHaveBeenCalledWith(url);
-    //check whether exchange rate from mock response is received and rendered into component
-    const rate = await waitForElement(() => getByText(/1.12/i))
     expect(rate).toBeInTheDocument();
   });
+
+  test('should accept input and show converted amount', async() => {
+    const value = "23.00";
+    const exchange = (parseFloat(value) * rate.toFixed(2)).toFixed(2)
+    mockCall();
+    const { getByTestId } = render(<Converter />);
+    const sourceInput =  await waitForElement(() => getByTestId(/source/i))
+    const targetInput =  await waitForElement(() => getByTestId(/target/i))
+    fireEvent.change(sourceInput, { target: { value: value, name: 'source' } })
+    expect(sourceInput.value).toEqual(value);
+    expect(targetInput.value).toEqual(exchange)
+  });
+
 });

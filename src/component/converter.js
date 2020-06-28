@@ -104,16 +104,19 @@ class Converter extends React.Component {
         );
     };
     renderInput(sign, sourceSymbol = "£", targetSymbol = "€") {
+        const name = sign === '-' ? "source" : "target"
+        const value = sign === '-' ? this.state.amount : this.state.change
         return (
             <div className={sign === '+' ? 'pocket' : null}>
                 <div className="exchange">
                     <span className="sign">{sign}</span>
                     <input
-                        name="source"
+                        name={name}
+                        data-testid={name}
                         type="text"
                         placeholder=""
                         autoFocus={sign === '-'}
-                        value={this.state.amount}
+                        value={value}
                         onInput={event => this.twoDecimalPoints(event)}
                         onChange={event => this.convertCurrency(event)}
                     />
