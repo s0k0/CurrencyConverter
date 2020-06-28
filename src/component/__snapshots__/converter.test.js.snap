@@ -1,3 +1,153 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Converter component renders converter component 1`] = `[Function]`;
+exports[`Converter component renders converter component 1`] = `
+<div
+  class="converter"
+>
+  <h1>
+    Exchange Credit
+  </h1>
+  <div
+    class="controls"
+  >
+    <button>
+      Cancel
+    </button>
+    <button>
+      Exchange
+    </button>
+  </div>
+  <div
+    class="source"
+  >
+    <div
+      class="pocket"
+    >
+      <label
+        class="currency"
+      >
+        GBP
+      </label>
+      <span
+        class="balance"
+      >
+        You have 
+        £
+         
+        1000
+      </span>
+    </div>
+    <div>
+      <div
+        class="exchange"
+      >
+        <span
+          class="sign"
+        >
+          -
+        </span>
+        <input
+          data-testid="source"
+          name="source"
+          placeholder=""
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="target"
+  >
+    <div
+      class="pocket"
+    >
+      <label
+        class="currency"
+      >
+        EUR
+      </label>
+      <span
+        class="balance"
+      >
+        You have 
+        €
+         
+        200
+      </span>
+    </div>
+    <div
+      class="pocket"
+    >
+      <div
+        class="exchange"
+      >
+        <span
+          class="sign"
+        >
+          +
+        </span>
+        <input
+          data-testid="target"
+          name="target"
+          placeholder=""
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+  </div>
+  <h5>
+    Change your pockets for transfering money:
+  </h5>
+  <div
+    class="changePockets"
+  >
+    <select
+      name="source"
+    >
+      <option
+        value="EUR"
+      >
+        EUR
+      </option>
+      <option
+        selected=""
+        value="GBP"
+      >
+        GBP
+      </option>
+      <option
+        value="USD"
+      >
+        USD
+      </option>
+    </select>
+    <p>
+      <i
+        class="arrow right"
+      />
+    </p>
+    <select
+      name="target"
+    >
+      <option
+        selected=""
+        value="EUR"
+      >
+        EUR
+      </option>
+      <option
+        value="GBP"
+      >
+        GBP
+      </option>
+      <option
+        value="USD"
+      >
+        USD
+      </option>
+    </select>
+  </div>
+</div>
+`;

@@ -19,7 +19,9 @@ function mockCall() {
 describe('Converter component', () => {
 
   test('renders converter component', () => {
-    expect(Converter).toMatchSnapshot()
+    mockCall();
+    const { container } = render(<Converter />);
+    expect(container.firstChild).toMatchSnapshot()
   });
 
   test('should fetch rates', async() => {
