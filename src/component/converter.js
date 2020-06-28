@@ -90,7 +90,82 @@ class Converter extends React.Component {
     };
     twoDecimalPoints = event => {
         event.target.value = event.target.value.replace(/([^\d]*)(\d*(.\d{0,2})?)(.*)/, '$2');
-    }    
+    };
+    renderBalance(pocket) {
+        return (
+            <div className="pocket">
+                <label className="currency">
+                    {pocket.currency}
+                </label>
+                <span className="balance">
+                    You have {pocket.symbol} {pocket.balance}
+                </span>
+            </div>
+        );
+    };
+    renderInput(sign, sourceSymbol = "£", targetSymbol = "€") {
+        return (
+            <div className={sign === '+' ? 'pocket' : null}>
+                <div className="exchange">
+                    <span className="sign">{sign}</span>
+                    <input
+                        name="source"
+                        type="text"
+                        placeholder=""
+                        autoFocus={sign === '-'}
+                        value={this.state.amount}
+                        onInput={event => this.twoDecimalPoints(event)}
+                        onChange={event => this.convertCurrency(event)}
+                    />
+                </div>
+                {this.state.rate && sign === '+'
+                    ? <span className="invertRate">{targetSymbol} 1 = {sourceSymbol} {this.state.invertRate}</span>
+                    : null}
+            </div>
+        );
+    };
+    renderPocketSelection(pocketName, currency) {
+        return (
+            <select name={pocketName} onChange={event => this.changePocket(event)} defaultValue={currency}>
+                {this.state.pockets.map(_ =>
+                    <option value={_.currency} key={_.currency}>{_.currency}</option>
+                )}
+            </select>
+        );
+    };
+    renderPockets(source,target) {
+        return (
+            <React.Fragment>
+                <div className="source">
+                    {this.renderBalance(source)}
+                    {this.renderInput('-')}
+                </div>
+                {source.balance >= this.state.amount
+                    ? null
+                    : <span className="error">Not enough credit available.</span>}
+                <div className="target">
+                    {this.renderBalance(target)}
+                    {this.renderInput("+", source.symbol, target.symbol)}
+                </div>
+            </React.Fragment>
+        );
+    };
+    renderSwitchPockets(source,target) {
+        return (
+            <React.Fragment>
+               <h5>Change your pockets for transfering money:</h5>
+                <div className="changePockets">
+                    {this.renderPocketSelection('source', source.currency)}
+                    <p><i className="arrow right"></i></p>
+                    {this.renderPocketSelection('target', target.currency)}
+                </div>
+                {source.currency !== target.currency
+                    ? null :
+                    <span className="error">Must be different currencies selected.</span>}
+            </React.Fragment>
+        );
+    };
+    
     render() {
         const source = this.state.pockets.find(_ => _.currency === this.state.sourceCurrency);
         const target = this.state.pockets.find(_ => _.currency === this.state.targetCurrency);
@@ -106,76 +181,14 @@ class Converter extends React.Component {
                     {this.state.rate
                         ? <span> {source.symbol} 1 = {target.symbol} {this.state.rate}</span>
                         : null}
-                    <button className={isBalanceSufficient && isDifferentPockets ? null : 'disabled'} disabled={!isBalanceSufficient} onClick={_ => this.updatePocket(source, target)} >Exchange</button>
+                    <button className={!isBalanceSufficient || !isDifferentPockets ? 'disabled' : null} 
+                            disabled={!isBalanceSufficient} 
+                            onClick={_ => this.updatePocket(source, target)} >
+                                Exchange
+                    </button>
                 </div>
-                <div className="source">
-                    <div className="pocket">
-                        <label className="currency">
-                            {source.currency}
-                        </label>
-                        <span className="balance">
-                            You have {source.symbol} {source.balance}
-                        </span>
-                    </div>
-                    <div className="exchange">
-                        <span className="sign">-</span>
-                        <input
-                            name="source"
-                            type="text"
-                            placeholder=""
-                            autoFocus
-                            value={this.state.amount}
-                            onInput={event => this.twoDecimalPoints(event)}
-                            onChange={event => this.convertCurrency(event)}
-                        />
-                    </div>
-                </div>
-                {isBalanceSufficient
-                    ? null
-                    : <span className="error">Not enough credit available.</span>}
-                <div className="target">
-                    <div className="pocket">
-                        <label className="currency">
-                            {target.currency}
-                        </label>
-                        <span className="balance">
-                            You have {target.symbol} {target.balance}
-                        </span>
-                    </div>
-                    <div className="pocket">
-                        <div className="exchange">
-                            <span className="sign">+</span>
-                            <input
-                                name="target"
-                                type="text"
-                                placeholder=""
-                                value={this.state.change}
-                                onInput={event => this.twoDecimalPoints(event)}
-                                onChange={event => this.convertCurrency(event)}
-                            />
-                        </div>
-                        {this.state.rate
-                            ? <span className="invertRate">{target.symbol} 1 = {source.symbol} {this.state.invertRate}</span>
-                            : null}
-                    </div>
-                </div>
-                <h5>Change your pockets for transfering money:</h5>
-                <div className="changePockets">
-                    <select name="source" id="sourcePocket" onChange={event => this.changePocket(event)} defaultValue={source.currency}>
-                        {this.state.pockets.map(_ =>
-                            <option value={_.currency} key={_.currency}>{_.currency}</option>
-                        )}
-                    </select>
-                    <p><i className="arrow right"></i></p>
-                    <select name="target" id="targetPocket" onChange={event => this.changePocket(event)} defaultValue={target.currency}>
-                        {this.state.pockets.map(_ =>
-                            <option value={_.currency} key={_.currency}>{_.currency}</option>
-                        )}
-                    </select>
-                </div>
-                {isDifferentPockets
-                    ? null :
-                    <span className="error">Must be different currencies selected.</span>}
+                    {this.renderPockets(source,target)}
+                    {this.renderSwitchPockets(source,target)} 
             </div>
         );
     }

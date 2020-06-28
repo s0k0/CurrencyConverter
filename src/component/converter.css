@@ -137,6 +137,7 @@ select {
 
 h5 {
     margin-top: 48px;
+    margin-bottom: 0;
 }
 
 @media screen and (max-width: 768px) {
