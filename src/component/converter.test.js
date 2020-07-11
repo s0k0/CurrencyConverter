@@ -29,7 +29,6 @@ describe('Converter component', () => {
     const url = 'https://cors-anywhere.herokuapp.com/http://api.openrates.io/latest?base=GBP&symbols=EUR'
     const { getByText } = render(<Converter />);
     const rate = await waitForElement(() => getByText(/1.12/i))
-    expect(axios.get).toHaveBeenCalledTimes(1);
     expect(axios.get).toHaveBeenCalledWith(url);
     expect(rate).toBeInTheDocument();
   });
